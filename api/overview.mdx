@@ -39,21 +39,21 @@ The API is organized into three main namespaces:
   <Card
     title="Provinces"
     icon="mountain"
-    href="#provinces-endpoint"
+    href="/api/provinces"
   >
     Access data for all 7 provinces of Nepal
   </Card>
   <Card
     title="Districts"
     icon="map"
-    href="#districts-endpoint"
+    href="/api/districts"
   >
     Query districts by province ID or name
   </Card>
   <Card
     title="Municipalities"
     icon="building"
-    href="#municipalities-endpoint"
+    href="/api/municipalities"
   >
     Retrieve municipalities by district or province
   </Card>
@@ -123,37 +123,41 @@ Returns municipalities based on optional query parameters.
 <CodeGroup>
 
 ```bash cURL - Get all provinces
-curl -X GET "/api/provinces/"
+curl -X GET "https://your-app-url/api/provinces/"
 ```
 
 ```bash cURL - Get districts in province 1
-curl -X GET "/api/districts/?province_id=1"
+curl -X GET "https://your-app-url/api/districts/?province_id=1"
 ```
 
 ```bash cURL - Get municipalities by province name
-curl -X GET "/api/municipalities/?province_name=Bagmati"
+curl -X GET "https://your-app-url/api/municipalities/?province_name=Bagmati"
 ```
 
 ```python Python
 import requests
 
+BASE_URL = "https://your-app-url"
+
 # Get all provinces
-response = requests.get("/api/provinces/")
+response = requests.get(f"{BASE_URL}/api/provinces/")
 provinces = response.json()
 
 # Get districts in a province
-response = requests.get("/api/districts/", params={"province_id": 1})
+response = requests.get(f"{BASE_URL}/api/districts/", params={"province_id": 1})
 districts = response.json()
 ```
 
 ```javascript JavaScript
+const BASE_URL = 'https://your-app-url';
+
 // Get all provinces
-fetch('/api/provinces/')
+fetch(`${BASE_URL}/api/provinces/`)
   .then(response => response.json())
   .then(data => console.log(data));
 
 // Get districts in a province
-fetch('/api/districts/?province_id=1')
+fetch(`${BASE_URL}/api/districts/?province_id=1`)
   .then(response => response.json())
   .then(data => console.log(data));
 ```

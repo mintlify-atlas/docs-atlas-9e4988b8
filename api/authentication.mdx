@@ -20,7 +20,7 @@ Unlike many APIs that require Bearer tokens, API keys, or OAuth authentication, 
 **Example - No headers needed:**
 
 ```bash
-curl -X GET "/api/provinces/"
+curl -X GET "https://your-app-url/api/provinces/"
 ```
 
 No `Authorization` header, no API key, no registration required.
@@ -58,7 +58,7 @@ class NepalAPIClient:
             if datetime.now() - cached_time < self.cache_duration:
                 return cached_data
         
-        response = requests.get('/api/provinces/')
+        response = requests.get('https://your-app-url/api/provinces/')
         data = response.json()
         self.cache[cache_key] = (data, datetime.now())
         
@@ -72,7 +72,7 @@ Always check response status codes and handle errors appropriately:
 ```javascript
 async function getDistricts(provinceId) {
   try {
-    const response = await fetch(`/api/districts/?province_id=${provinceId}`);
+    const response = await fetch(`https://your-app-url/api/districts/?province_id=${provinceId}`);
     
     if (!response.ok) {
       if (response.status === 404) {
@@ -94,14 +94,16 @@ async function getDistricts(provinceId) {
 When filtering data, ensure you provide valid province or district identifiers:
 
 ```python
+BASE_URL = "https://your-app-url"
+
 # Good - specific query
-response = requests.get('/api/districts/', params={'province_id': 1})
+response = requests.get(f'{BASE_URL}/api/districts/', params={'province_id': 1})
 
 # Also good - query by name
-response = requests.get('/api/districts/', params={'province_name': 'Bagmati'})
+response = requests.get(f'{BASE_URL}/api/districts/', params={'province_name': 'Bagmati'})
 
 # Less efficient - fetching all districts then filtering
-response = requests.get('/api/districts/')
+response = requests.get(f'{BASE_URL}/api/districts/')
 all_districts = response.json()
 filtered = [d for d in all_districts if d['name'] == 'Kathmandu']
 ```
@@ -113,8 +115,10 @@ Configure request timeouts to prevent your application from hanging:
 ```python
 import requests
 
+BASE_URL = "https://your-app-url"
+
 try:
-    response = requests.get('/api/provinces/', timeout=5)
+    response = requests.get(f'{BASE_URL}/api/provinces/', timeout=5)
     response.raise_for_status()
     provinces = response.json()
 except requests.Timeout:
@@ -128,6 +132,8 @@ except requests.RequestException as e:
 Validate user input before making API calls to avoid unnecessary 404 errors:
 
 ```javascript
+const BASE_URL = 'https://your-app-url';
+
 function getDistrictsByProvince(provinceName) {
   // Validate input
   if (!provinceName || typeof provinceName !== 'string') {
@@ -135,7 +141,7 @@ function getDistrictsByProvince(provinceName) {
   }
   
   // Make request
-  return fetch(`/api/districts/?province_name=${encodeURIComponent(provinceName)}`)
+  return fetch(`${BASE_URL}/api/districts/?province_name=${encodeURIComponent(provinceName)}`)
     .then(response => {
       if (!response.ok) throw new Error('Province not found');
       return response.json();
