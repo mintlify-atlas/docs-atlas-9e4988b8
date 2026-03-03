@@ -1,0 +1,165 @@
+---
+title: "API Overview"
+description: "REST API for accessing Nepal's administrative divisions data"
+---
+
+## Introduction
+
+The Nepal Administrative Divisions API provides programmatic access to comprehensive data about Nepal's provinces, districts, and municipalities. This REST API is built with Flask-RESTX and returns all responses in JSON format.
+
+## Base URL
+
+All API requests are made to endpoints prefixed with `/api`:
+
+```
+/api
+```
+
+## Interactive Documentation
+
+The API includes interactive Swagger documentation where you can explore and test all endpoints:
+
+<Note>
+  Access the interactive Swagger API documentation at the `/docs` endpoint on the live application for testing endpoints in your browser.
+</Note>
+
+## Response Format
+
+All API responses are returned in JSON format with appropriate HTTP status codes:
+
+- `200 OK` - Successful request
+- `404 Not Found` - Resource not found (e.g., invalid province or district)
+- `500 Internal Server Error` - Server error
+
+## Available Endpoints
+
+The API is organized into three main namespaces:
+
+<CardGroup cols={3}>
+  <Card
+    title="Provinces"
+    icon="mountain"
+    href="#provinces-endpoint"
+  >
+    Access data for all 7 provinces of Nepal
+  </Card>
+  <Card
+    title="Districts"
+    icon="map"
+    href="#districts-endpoint"
+  >
+    Query districts by province ID or name
+  </Card>
+  <Card
+    title="Municipalities"
+    icon="building"
+    href="#municipalities-endpoint"
+  >
+    Retrieve municipalities by district or province
+  </Card>
+</CardGroup>
+
+### Provinces Endpoint
+
+**GET** `/api/provinces/`
+
+Returns a list of all provinces in Nepal with their details.
+
+**Response fields:**
+- `id` (integer) - Province ID
+- `name` (string) - Province name
+- `area_sq_km` (string) - Area in square kilometers
+- `website` (string) - Official province website
+- `headquarter` (string) - Province headquarter city
+
+### Districts Endpoint
+
+**GET** `/api/districts/`
+
+Returns districts based on optional query parameters.
+
+**Query parameters:**
+- `province_id` (integer, optional) - Filter by province ID
+- `province_name` (string, optional) - Filter by province name
+
+**Response fields:**
+- `id` (integer) - District ID
+- `name` (string) - District name
+- `area_sq_km` (string) - Area in square kilometers
+- `website` (string) - Official district website
+- `headquarter` (string) - District headquarter
+
+**Behavior:**
+- Without parameters: Returns all districts across all provinces
+- With `province_id` or `province_name`: Returns districts within that province
+
+### Municipalities Endpoint
+
+**GET** `/api/municipalities/`
+
+Returns municipalities based on optional query parameters.
+
+**Query parameters:**
+- `province_id` (integer, optional) - Filter by province ID
+- `province_name` (string, optional) - Filter by province name
+- `district_id` (integer, optional) - Filter by district ID
+- `district_name` (string, optional) - Filter by district name
+
+**Response fields:**
+- `id` (integer) - Municipality ID
+- `category_id` (integer) - Municipality category ID
+- `name` (string) - Municipality name
+- `area_sq_km` (string) - Area in square kilometers
+- `website` (string) - Official municipality website
+- `wards` (array of integers) - List of ward numbers
+
+**Behavior:**
+- Without parameters: Returns all municipalities across Nepal
+- With `province_id` or `province_name` only: Returns all municipalities in that province
+- With province and district filters: Returns municipalities in that specific district
+
+## Example Requests
+
+<CodeGroup>
+
+```bash cURL - Get all provinces
+curl -X GET "/api/provinces/"
+```
+
+```bash cURL - Get districts in province 1
+curl -X GET "/api/districts/?province_id=1"
+```
+
+```bash cURL - Get municipalities by province name
+curl -X GET "/api/municipalities/?province_name=Bagmati"
+```
+
+```python Python
+import requests
+
+# Get all provinces
+response = requests.get("/api/provinces/")
+provinces = response.json()
+
+# Get districts in a province
+response = requests.get("/api/districts/", params={"province_id": 1})
+districts = response.json()
+```
+
+```javascript JavaScript
+// Get all provinces
+fetch('/api/provinces/')
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+// Get districts in a province
+fetch('/api/districts/?province_id=1')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+
+</CodeGroup>
+
+## Data Source
+
+The API loads data from a remote source specified in the `NEPAL_ADMIN_DATA_URL` environment variable. If the remote source is unavailable, it falls back to a local JSON file to ensure continuous availability.

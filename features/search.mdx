@@ -1,0 +1,141 @@
+---
+title: Search Administrative Divisions
+description: Quickly find provinces, districts, and municipalities across Nepal using the powerful search feature
+---
+
+The search functionality allows you to quickly find any administrative division in Nepal by name, providing instant results with detailed information.
+
+## Accessing Search
+
+Navigate to the search page using the `/search` route. The search interface includes:
+
+- A prominent search input field
+- Real-time autocomplete suggestions
+- Comprehensive results display
+
+## How to Search
+
+### Entering Search Queries
+
+1. Type your search term into the search box
+2. As you type, autocomplete suggestions appear automatically (after 2 characters)
+3. Click a suggestion to populate the search field, or continue typing
+4. Press Enter or click the Search button to see full results
+
+<Note>
+Search is case-insensitive and matches partial names. For example, searching for "bagmati" will find "Bagmati Province".
+</Note>
+
+### What You Can Search
+
+The search feature covers all administrative divisions:
+
+- **Provinces** - All 7 provinces of Nepal
+- **Districts** - All districts across all provinces
+- **Municipalities** - All municipalities, including metropolitan cities, sub-metropolitan cities, municipalities, and rural municipalities
+
+## Autocomplete Suggestions
+
+The autocomplete feature provides quick access to relevant results:
+
+- Displays up to 5 matching suggestions
+- Shows the division type (province, district, or municipality) next to each result
+- Updates dynamically as you type
+- Click any suggestion to select it
+
+<Tip>
+Autocomplete helps you discover the exact spelling of administrative divisions and speeds up your search.
+</Tip>
+
+## Understanding Search Results
+
+Search results are organized by division type, with each result showing relevant information:
+
+### Province Results
+
+When a province matches your search:
+
+- Province name and total number of districts
+- Area in square kilometers
+- Official website link
+- Administrative headquarter
+- **Interactive district selector** - Dropdown menu to explore districts within the province
+- Selecting a district reveals its complete information including all municipalities
+
+### District Results
+
+When a district matches your search:
+
+- District name and parent province
+- Area in square kilometers
+- Official website link
+- Administrative headquarter
+- Total number of municipalities
+- **Interactive municipality selector** - Dropdown menu to explore municipalities within the district
+- Selecting a municipality shows its detailed information
+
+### Municipality Results
+
+When a municipality matches your search:
+
+- Municipality name
+- Parent district and province
+- Area in square kilometers
+- Official website link
+- Complete list of administrative wards
+
+<CardGroup cols={2}>
+  <Card title="Quick Navigation" icon="bolt">
+    Click on website links to visit official government pages for any division
+  </Card>
+  
+  <Card title="Comprehensive Data" icon="database">
+    Each result includes geographic, administrative, and hierarchical information
+  </Card>
+</CardGroup>
+
+## Interactive Result Exploration
+
+Search results include powerful interactive features:
+
+### Hierarchical Exploration
+
+When you find a province or district, you can explore its subdivisions without leaving the search results:
+
+1. **Province results** include a dropdown to select and view any district
+2. **District results** include a dropdown to select and view any municipality
+3. Details appear inline below the dropdown when you make a selection
+
+### Nested Information
+
+For province results, selecting a district shows:
+- District details
+- All municipalities within that district
+- Quick statistics (municipality count, area, etc.)
+
+<Warning>
+If no results match your search query, a "No results found" message appears. Try using different spellings or shorter search terms.
+</Warning>
+
+## Search Tips
+
+<AccordionGroup>
+  <Accordion title="Finding specific divisions">
+    Use the autocomplete feature to see suggestions as you type. This helps ensure you're using the correct spelling.
+  </Accordion>
+  
+  <Accordion title="Broad vs. specific searches">
+    Shorter search terms return more results. For example, "Kathmandu" finds both Kathmandu district and Kathmandu Metropolitan City.
+  </Accordion>
+  
+  <Accordion title="Exploring hierarchies">
+    When searching for higher-level divisions (provinces or districts), use the dropdown menus in results to explore subdivisions without running new searches.
+  </Accordion>
+</AccordionGroup>
+
+## Common Use Cases
+
+- **Finding official websites**: Search for any division to quickly access its official government website
+- **Geographic research**: Look up area measurements for provinces, districts, or municipalities
+- **Administrative lookup**: Find headquarter locations and hierarchical relationships
+- **Data verification**: Cross-reference administrative boundaries and subdivision counts

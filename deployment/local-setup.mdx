@@ -1,0 +1,159 @@
+---
+title: Local Development Setup
+description: Set up and run the Nepal Administrative Divisions application locally for development
+---
+
+This guide walks you through setting up the Nepal Administrative Divisions application on your local machine for development purposes.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Python 3.9 or higher
+- pip (Python package installer)
+- Git
+
+## Installation Steps
+
+<Steps>
+  <Step title="Clone the Repository">
+    Clone the project repository from GitHub:
+
+    ```bash
+    git clone https://github.com/sajan69/nepal-administrative-divisions.git
+    cd nepal-administrative-divisions
+    ```
+  </Step>
+
+  <Step title="Create Virtual Environment">
+    Create and activate a Python virtual environment:
+
+    <CodeGroup>
+      ```bash Linux/macOS
+      python -m venv env
+      source env/bin/activate
+      ```
+
+      ```bash Windows
+      python -m venv env
+      env\Scripts\activate
+      ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Install Dependencies">
+    Install all required Python packages from `requirements.txt`:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+    The following packages will be installed:
+
+    ```txt
+    Flask==2.2.5
+    flask-restx==1.1.0
+    python-decouple==3.8
+    requests==2.32.3
+    Jinja2==3.1.2
+    # ... and other dependencies
+    ```
+  </Step>
+
+  <Step title="Configure Environment Variables">
+    Set up the required environment variable for the data source URL. See the [Environment Variables](/deployment/environment-variables) page for detailed configuration.
+
+    Create a `.env` file in the project root:
+
+    ```bash
+    NEPAL_ADMIN_DATA_URL=https://your-data-source-url.com/nepal_data.json
+    ```
+
+    <Note>
+      The application fetches administrative division data from the URL specified in `NEPAL_ADMIN_DATA_URL`. If the URL is unavailable, it will fall back to the local `data/updated_nepal_data.json` file.
+    </Note>
+  </Step>
+
+  <Step title="Run the Application">
+    Start the Flask development server:
+
+    ```bash
+    python app.py
+    ```
+
+    You should see output similar to:
+
+    ```
+    Fetching data from: https://your-data-source-url.com/nepal_data.json
+    Status Code: 200
+     * Serving Flask app 'app'
+     * Debug mode: on
+     * Running on http://127.0.0.1:5000
+    ```
+  </Step>
+
+  <Step title="Access the Application">
+    Open your web browser and navigate to:
+
+    - **Web Interface**: `http://localhost:5000`
+    - **API Documentation**: `http://localhost:5000/docs`
+
+    The web interface provides:
+    - Browse provinces, districts, and municipalities
+    - Search functionality for administrative divisions
+    - Interactive data visualization
+  </Step>
+</Steps>
+
+## Development Features
+
+When running in debug mode (default for local development), the application includes:
+
+- **Auto-reload**: The server automatically restarts when you modify code files
+- **Debug mode**: Detailed error messages and stack traces
+- **Swagger UI**: Interactive API documentation at `/docs`
+
+## API Endpoints
+
+Once running, you can test the following API endpoints:
+
+```bash
+# Get all provinces
+GET http://localhost:5000/api/provinces/
+
+# Get districts in a specific province
+GET http://localhost:5000/api/districts/?province_id=3
+GET http://localhost:5000/api/districts/?province_name=Bagmati
+
+# Get municipalities in a specific district
+GET http://localhost:5000/api/municipalities/?province_id=3&district_id=27
+GET http://localhost:5000/api/municipalities/?province_name=Bagmati&district_name=Kathmandu
+```
+
+## Troubleshooting
+
+<Warning>
+  If you encounter a "NEPAL_ADMIN_DATA_URL not found" error, ensure you've created the `.env` file with the correct environment variable.
+</Warning>
+
+### Common Issues
+
+**Port already in use**: If port 5000 is already in use, modify `app.py` to use a different port:
+
+```python
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)
+```
+
+**Module not found errors**: Ensure your virtual environment is activated and all dependencies are installed:
+
+```bash
+source env/bin/activate  # or env\Scripts\activate on Windows
+pip install -r requirements.txt
+```
+
+## Next Steps
+
+- Learn about [Vercel deployment](/deployment/vercel)
+- Configure [environment variables](/deployment/environment-variables)
+- Explore the API using the Swagger documentation at `/docs`

@@ -1,0 +1,188 @@
+---
+title: Vercel Deployment
+description: Deploy the Nepal Administrative Divisions application to Vercel for production hosting
+---
+
+The Nepal Administrative Divisions application is configured for seamless deployment to Vercel using serverless Python functions.
+
+## Prerequisites
+
+- A [Vercel account](https://vercel.com/signup)
+- The [Vercel CLI](https://vercel.com/docs/cli) installed (optional, for CLI deployment)
+- Your project pushed to a Git repository (GitHub, GitLab, or Bitbucket)
+
+## Vercel Configuration
+
+The application includes a `vercel.json` configuration file that defines the build and routing settings:
+
+```json vercel.json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python",
+      "config": { 
+        "runtime": "python3.9",
+        "installCommand": "pip install -r requirements.txt"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.py"
+    }
+  ]
+}
+```
+
+### Configuration Details
+
+- **Runtime**: Python 3.9 is used for serverless function execution
+- **Build Source**: The `app.py` file is the entry point for the application
+- **Builder**: `@vercel/python` handles Python serverless functions
+- **Install Command**: Dependencies from `requirements.txt` are automatically installed during build
+- **Routing**: All requests are routed to the Flask application
+
+## Deployment Methods
+
+### Method 1: Deploy via Vercel Dashboard (Recommended)
+
+<Steps>
+  <Step title="Import Project">
+    1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+    2. Click **Add New** → **Project**
+    3. Import your Git repository
+  </Step>
+
+  <Step title="Configure Build Settings">
+    Vercel will automatically detect the `vercel.json` configuration. Verify the settings:
+
+    - **Framework Preset**: Other
+    - **Build Command**: (leave empty, handled by vercel.json)
+    - **Output Directory**: (leave empty)
+    - **Install Command**: `pip install -r requirements.txt`
+  </Step>
+
+  <Step title="Set Environment Variables">
+    Before deploying, add the required environment variable:
+
+    1. Go to **Settings** → **Environment Variables**
+    2. Add `NEPAL_ADMIN_DATA_URL` with your data source URL
+    3. Set it for **Production**, **Preview**, and **Development** environments
+
+    See [Environment Variables](/deployment/environment-variables) for detailed configuration.
+  </Step>
+
+  <Step title="Deploy">
+    Click **Deploy** and wait for the build to complete. Your application will be available at:
+
+    ```
+    https://your-project-name.vercel.app
+    ```
+  </Step>
+</Steps>
+
+### Method 2: Deploy via Vercel CLI
+
+<Steps>
+  <Step title="Install Vercel CLI">
+    ```bash
+    npm install -g vercel
+    ```
+  </Step>
+
+  <Step title="Login to Vercel">
+    ```bash
+    vercel login
+    ```
+  </Step>
+
+  <Step title="Set Environment Variables">
+    ```bash
+    vercel env add NEPAL_ADMIN_DATA_URL
+    ```
+
+    Enter your data source URL when prompted.
+  </Step>
+
+  <Step title="Deploy">
+    From your project directory:
+
+    ```bash
+    vercel
+    ```
+
+    For production deployment:
+
+    ```bash
+    vercel --prod
+    ```
+  </Step>
+</Steps>
+
+## Build Process
+
+During deployment, Vercel performs the following steps:
+
+1. **Install Dependencies**: Runs `pip install -r requirements.txt`
+2. **Build Function**: Converts `app.py` into a serverless function
+3. **Configure Routes**: Sets up routing based on `vercel.json`
+4. **Deploy**: Deploys the serverless function to Vercel's edge network
+
+## Accessing Your Application
+
+Once deployed, your application provides:
+
+- **Web Interface**: `https://your-project-name.vercel.app/`
+- **API Documentation**: `https://your-project-name.vercel.app/docs`
+- **API Endpoints**: 
+  - `/api/provinces/`
+  - `/api/districts/`
+  - `/api/municipalities/`
+
+<Note>
+  Vercel automatically assigns a unique URL to your deployment. You can configure a custom domain in the Vercel dashboard under **Settings** → **Domains**.
+</Note>
+
+## Environment Variables in Production
+
+<Warning>
+  The `NEPAL_ADMIN_DATA_URL` environment variable is **required** for the application to function. Without it, the application will attempt to use a local fallback file, which may not be available in the serverless environment.
+</Warning>
+
+To manage environment variables after deployment:
+
+1. Go to your project in the Vercel dashboard
+2. Navigate to **Settings** → **Environment Variables**
+3. Add, edit, or remove variables as needed
+4. Redeploy for changes to take effect
+
+## Monitoring and Logs
+
+Vercel provides built-in monitoring tools:
+
+- **Deployment Logs**: View build and deployment logs in the Vercel dashboard
+- **Function Logs**: Real-time logs for your serverless function
+- **Analytics**: Track visits, performance, and errors
+
+Access logs via:
+- Vercel Dashboard → Your Project → Deployments → View Logs
+- Vercel CLI: `vercel logs`
+
+## Continuous Deployment
+
+Vercel automatically deploys your application when you push changes to your Git repository:
+
+- **Production**: Pushes to the `main` or `master` branch
+- **Preview**: Pushes to other branches or pull requests
+
+Each deployment gets a unique URL for testing before promoting to production.
+
+## Next Steps
+
+- Configure [environment variables](/deployment/environment-variables) for different environments
+- Set up a custom domain in Vercel settings
+- Monitor your application's performance and logs
+- Enable Vercel Analytics for usage insights

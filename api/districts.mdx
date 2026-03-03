@@ -1,0 +1,88 @@
+---
+title: 'Districts'
+description: 'Retrieve districts with optional filtering by province'
+---
+
+<RequestExample>
+```bash All Districts
+curl -X GET https://nepalappapis.com.np/api/districts/
+```
+
+```bash Filter by Province ID
+curl -X GET https://nepalappapis.com.np/api/districts/?province_id=1
+```
+
+```bash Filter by Province Name
+curl -X GET https://nepalappapis.com.np/api/districts/?province_name=Koshi%20Province
+```
+</RequestExample>
+
+## GET /api/districts/
+
+Returns a list of districts in Nepal. Can be filtered by province using either province ID or province name.
+
+### Query Parameters
+
+<ParamField query="province_id" type="integer">
+  The province ID to filter districts by. Returns all districts within the specified province.
+</ParamField>
+
+<ParamField query="province_name" type="string">
+  The province name to filter districts by. Case-insensitive matching. Returns all districts within the specified province.
+</ParamField>
+
+<Note>
+  If neither `province_id` nor `province_name` is provided, all districts from all provinces are returned. If a province is not found, the API returns a 404 error.
+</Note>
+
+### Response
+
+Returns an array of district objects.
+
+<ResponseField name="id" type="integer" required>
+  District ID
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  District name
+</ResponseField>
+
+<ResponseField name="area_sq_km" type="string" required>
+  Area in square kilometers
+</ResponseField>
+
+<ResponseField name="website" type="string" required>
+  District website URL
+</ResponseField>
+
+<ResponseField name="headquarter" type="string" required>
+  District headquarter city
+</ResponseField>
+
+### Response Example
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Taplejung",
+    "area_sq_km": "3646",
+    "website": "https://taplejung.gov.np",
+    "headquarter": "Phungling"
+  },
+  {
+    "id": 2,
+    "name": "Panchthar",
+    "area_sq_km": "1241",
+    "website": "https://panchthar.gov.np",
+    "headquarter": "Phidim"
+  },
+  {
+    "id": 3,
+    "name": "Ilam",
+    "area_sq_km": "1703",
+    "website": "https://ilam.gov.np",
+    "headquarter": "Ilam"
+  }
+]
+```

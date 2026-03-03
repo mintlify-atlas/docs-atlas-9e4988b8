@@ -1,0 +1,165 @@
+---
+title: "Authentication"
+description: "Authentication and access information for the Nepal Administrative Divisions API"
+---
+
+## Public API
+
+The Nepal Administrative Divisions API is completely **public and open** - no authentication is required to access any endpoint.
+
+You can start making requests immediately without registering for an API key or providing any credentials.
+
+<Note>
+  This API does not require authentication. All endpoints are publicly accessible.
+</Note>
+
+## No Authentication Required
+
+Unlike many APIs that require Bearer tokens, API keys, or OAuth authentication, this API is designed for open access to Nepal's administrative data. Simply make HTTP GET requests to any endpoint to retrieve data.
+
+**Example - No headers needed:**
+
+```bash
+curl -X GET "/api/provinces/"
+```
+
+No `Authorization` header, no API key, no registration required.
+
+## Rate Limiting
+
+Currently, there are **no rate limits** implemented on this API. However, please use the API responsibly:
+
+<Warning>
+  While there are no enforced rate limits, please be considerate with your request volume to ensure the API remains available for all users.
+</Warning>
+
+## Best Practices
+
+Even though authentication is not required, follow these best practices when using the API:
+
+### 1. Cache Responses
+
+The administrative division data is relatively static. Consider caching responses to reduce unnecessary requests:
+
+```python
+import requests
+from datetime import datetime, timedelta
+
+class NepalAPIClient:
+    def __init__(self):
+        self.cache = {}
+        self.cache_duration = timedelta(hours=24)
+    
+    def get_provinces(self):
+        cache_key = 'provinces'
+        
+        if cache_key in self.cache:
+            cached_data, cached_time = self.cache[cache_key]
+            if datetime.now() - cached_time < self.cache_duration:
+                return cached_data
+        
+        response = requests.get('/api/provinces/')
+        data = response.json()
+        self.cache[cache_key] = (data, datetime.now())
+        
+        return data
+```
+
+### 2. Handle Errors Gracefully
+
+Always check response status codes and handle errors appropriately:
+
+```javascript
+async function getDistricts(provinceId) {
+  try {
+    const response = await fetch(`/api/districts/?province_id=${provinceId}`);
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Province not found');
+      }
+      throw new Error('API request failed');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching districts:', error);
+    throw error;
+  }
+}
+```
+
+### 3. Use Query Parameters Correctly
+
+When filtering data, ensure you provide valid province or district identifiers:
+
+```python
+# Good - specific query
+response = requests.get('/api/districts/', params={'province_id': 1})
+
+# Also good - query by name
+response = requests.get('/api/districts/', params={'province_name': 'Bagmati'})
+
+# Less efficient - fetching all districts then filtering
+response = requests.get('/api/districts/')
+all_districts = response.json()
+filtered = [d for d in all_districts if d['name'] == 'Kathmandu']
+```
+
+### 4. Set Appropriate Timeouts
+
+Configure request timeouts to prevent your application from hanging:
+
+```python
+import requests
+
+try:
+    response = requests.get('/api/provinces/', timeout=5)
+    response.raise_for_status()
+    provinces = response.json()
+except requests.Timeout:
+    print('Request timed out')
+except requests.RequestException as e:
+    print(f'Request failed: {e}')
+```
+
+### 5. Validate Input Before Requests
+
+Validate user input before making API calls to avoid unnecessary 404 errors:
+
+```javascript
+function getDistrictsByProvince(provinceName) {
+  // Validate input
+  if (!provinceName || typeof provinceName !== 'string') {
+    throw new Error('Invalid province name');
+  }
+  
+  // Make request
+  return fetch(`/api/districts/?province_name=${encodeURIComponent(provinceName)}`)
+    .then(response => {
+      if (!response.ok) throw new Error('Province not found');
+      return response.json();
+    });
+}
+```
+
+## CORS (Cross-Origin Resource Sharing)
+
+If you plan to make requests from a web browser, be aware of CORS policies. Contact the API administrator if you encounter CORS-related issues when making requests from your web application.
+
+## Data Availability
+
+The API is designed with a fallback mechanism:
+
+1. **Primary source**: Fetches data from a remote URL (configured via `NEPAL_ADMIN_DATA_URL`)
+2. **Fallback**: Uses local JSON file if the remote source is unavailable
+
+This ensures the API remains functional even if the primary data source experiences downtime.
+
+## Support and Questions
+
+Since this is an open API without user accounts, there is no formal support system. For questions or issues:
+
+- Review the [API Overview](/api/overview) for usage examples
+- Ensure your requests follow the documented endpoint specifications
+- Check the Swagger documentation at `/docs` on the live application for interactive endpoint testing

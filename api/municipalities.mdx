@@ -1,0 +1,101 @@
+---
+title: 'Municipalities'
+description: 'Retrieve municipalities with optional filtering by province and district'
+---
+
+<RequestExample>
+```bash All Municipalities
+curl -X GET https://nepalappapis.com.np/api/municipalities/
+```
+
+```bash Filter by Province ID
+curl -X GET https://nepalappapis.com.np/api/municipalities/?province_id=1
+```
+
+```bash Filter by Province and District ID
+curl -X GET "https://nepalappapis.com.np/api/municipalities/?province_id=1&district_id=3"
+```
+
+```bash Filter by District Name
+curl -X GET https://nepalappapis.com.np/api/municipalities/?province_name=Koshi%20Province&district_name=Ilam
+```
+</RequestExample>
+
+## GET /api/municipalities/
+
+Returns a list of municipalities in Nepal. Can be filtered by province and/or district using either IDs or names.
+
+### Query Parameters
+
+<ParamField query="province_id" type="integer">
+  The province ID to filter municipalities by. Returns all municipalities within the specified province.
+</ParamField>
+
+<ParamField query="province_name" type="string">
+  The province name to filter municipalities by. Case-insensitive matching. Returns all municipalities within the specified province.
+</ParamField>
+
+<ParamField query="district_id" type="integer">
+  The district ID to filter municipalities by. Must be used in combination with `province_id` or `province_name`.
+</ParamField>
+
+<ParamField query="district_name" type="string">
+  The district name to filter municipalities by. Case-insensitive matching. Must be used in combination with `province_id` or `province_name`.
+</ParamField>
+
+<Note>
+  If no parameters are provided, all municipalities from all districts and provinces are returned. 
+  
+  When using `district_id` or `district_name`, you must also specify either `province_id` or `province_name`. If a province or district is not found, the API returns a 404 error.
+</Note>
+
+### Response
+
+Returns an array of municipality objects.
+
+<ResponseField name="id" type="integer" required>
+  Municipality ID
+</ResponseField>
+
+<ResponseField name="category_id" type="integer" required>
+  Category ID indicating the type of municipality
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Municipality name
+</ResponseField>
+
+<ResponseField name="area_sq_km" type="string" required>
+  Area in square kilometers
+</ResponseField>
+
+<ResponseField name="website" type="string" required>
+  Municipality website URL
+</ResponseField>
+
+<ResponseField name="wards" type="array" required>
+  List of ward numbers within the municipality
+</ResponseField>
+
+### Response Example
+
+```json
+[
+  {
+    "id": 1,
+    "category_id": 1,
+    "name": "Phungling Municipality",
+    "area_sq_km": "120.5",
+    "website": "https://phunglingmun.gov.np",
+    "wards": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  },
+  {
+    "id": 2,
+    "category_id": 2,
+    "name": "Mikwakhola Rural Municipality",
+    "area_sq_km": "85.3",
+    "website": "https://mikwakhola.gov.np",
+    "wards": [1, 2, 3, 4, 5, 6]
+  }
+]
+```

@@ -1,0 +1,89 @@
+---
+title: Browse Administrative Divisions
+description: Navigate through Nepal's hierarchical administrative structure from provinces to municipalities
+---
+
+The Nepal Administrative Divisions application allows you to explore the country's administrative structure through an intuitive hierarchical navigation system.
+
+## Navigation Hierarchy
+
+The application organizes Nepal's administrative divisions into three levels:
+
+1. **Provinces** - The top-level administrative units
+2. **Districts** - Mid-level divisions within each province
+3. **Municipalities** - Local administrative units within districts
+
+### Starting at the Home Page
+
+When you visit the home page (`/`), you'll see a list of all seven provinces of Nepal. Each province name is clickable and takes you to the detailed province view.
+
+### Viewing Province Details
+
+Clicking on any province (`/province/<id>`) displays:
+
+- **Province information**
+  - Total area in square kilometers
+  - Official website link
+  - Administrative headquarter location
+
+- **Districts list** - All districts within the selected province, displayed as clickable links
+
+<Note>
+Each province page includes a "Back to Provinces" link for easy navigation to the home page.
+</Note>
+
+### Exploring District Information
+
+From a province page, click on any district to view its details (`/district/<province_id>/<district_id>`):
+
+- **District information**
+  - Total area in square kilometers
+  - Official website link
+  - Administrative headquarter location
+
+- **Municipalities list** - All municipalities within the district with expandable details
+
+### Viewing Municipality Details
+
+Municipalities are displayed in an expandable format. Click on any municipality to reveal:
+
+- Category classification
+- Total area in square kilometers
+- Official website link
+- Complete list of administrative wards
+
+<Tip>
+Municipality details are shown inline with a summary view (area and ward count) that expands to show full information when clicked.
+</Tip>
+
+## Navigation Controls
+
+The application provides convenient back navigation:
+
+- From district pages: Navigate back to the parent province or return to the home page
+- Breadcrumb-style navigation helps you understand your current location in the hierarchy
+
+## Information Displayed
+
+At each level of the administrative hierarchy, you can access:
+
+<CardGroup cols={3}>
+  <Card title="Geographic Data" icon="map">
+    Area measurements in square kilometers for provinces, districts, and municipalities
+  </Card>
+  
+  <Card title="Administrative Info" icon="building">
+    Headquarter locations and official government websites
+  </Card>
+  
+  <Card title="Subdivisions" icon="sitemap">
+    Complete lists of all subdivisions (districts within provinces, municipalities within districts)
+  </Card>
+</CardGroup>
+
+## Use Cases
+
+- **Research**: Gather detailed information about specific administrative regions
+- **Education**: Learn about Nepal's administrative structure and organization
+- **Planning**: Access official websites and understand jurisdictional boundaries
+- **Reference**: Quickly look up headquarter locations and geographic data

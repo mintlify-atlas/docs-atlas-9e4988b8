@@ -1,0 +1,159 @@
+---
+title: Data Visualization
+description: Explore interactive charts and visual representations of Nepal's administrative divisions data
+---
+
+The visualization page provides interactive charts that help you understand Nepal's administrative structure through visual data representation using Chart.js.
+
+## Accessing Visualizations
+
+Navigate to `/visualize` to access the data visualization dashboard. The page displays multiple interactive charts that update dynamically based on your selections.
+
+## Available Visualizations
+
+The visualization dashboard includes three main charts:
+
+### 1. Districts per Province (Bar Chart)
+
+This bar chart displays the number of districts in each of Nepal's seven provinces.
+
+**What it shows:**
+- Province names on the horizontal axis
+- District count on the vertical axis
+- Color-coded bars for easy comparison
+
+**Use this chart to:**
+- Compare administrative complexity across provinces
+- Identify which provinces have the most districts
+- Understand the distribution of districts nationally
+
+<Info>
+The chart uses a responsive design that adjusts to your screen size while maintaining readability.
+</Info>
+
+### 2. Municipalities per Province (Pie Chart)
+
+This pie chart visualizes the distribution of municipalities across all provinces.
+
+**What it shows:**
+- Proportional slices for each province
+- Total municipality count per province
+- Color-coded segments with a legend
+
+**Use this chart to:**
+- See which provinces have the most local administrative units
+- Understand the relative size of provincial administrations
+- Visualize population distribution patterns (municipalities often correlate with population)
+
+<Tip>
+Hover over any pie slice to see the exact number of municipalities in that province.
+</Tip>
+
+### 3. Municipalities per District (Interactive Bar Chart)
+
+This interactive chart allows you to drill down into individual provinces to see municipality distribution across districts.
+
+**How to use:**
+1. Select a province from the dropdown menu
+2. The chart updates to show all districts in that province
+3. Bar heights represent the number of municipalities in each district
+
+**What it shows:**
+- District names on the horizontal axis (rotated for readability)
+- Municipality count on the vertical axis
+- Dynamic title showing the selected province
+
+**Use this chart to:**
+- Analyze administrative structure within a specific province
+- Compare district sizes in terms of local governance units
+- Identify districts with complex administrative divisions
+
+<Note>
+District names are rotated 90 degrees to prevent overlap and ensure all labels are readable.
+</Note>
+
+## Chart Features
+
+### Interactivity
+
+All charts include interactive features:
+
+<CardGroup cols={2}>
+  <Card title="Responsive Design" icon="mobile">
+    Charts automatically resize to fit your screen, whether desktop, tablet, or mobile
+  </Card>
+  
+  <Card title="Tooltips" icon="info-circle">
+    Hover over any data point to see exact values and additional information
+  </Card>
+  
+  <Card title="Dynamic Updates" icon="rotate">
+    The district-municipality chart updates instantly when you select a different province
+  </Card>
+  
+  <Card title="Clear Legends" icon="list">
+    Color-coded legends help you identify different data series
+  </Card>
+</CardGroup>
+
+### Visual Design
+
+The charts use a consistent color scheme and styling:
+
+- **Teal/turquoise** for district counts
+- **Multi-color palette** for province pie chart
+- **Purple** for municipality counts per district
+- White backgrounds with subtle shadows for clarity
+- Professional grid lines and axis labels
+
+## Data Insights
+
+The visualizations help you discover patterns in Nepal's administrative structure:
+
+### Province-Level Insights
+
+- Compare the administrative complexity of different provinces
+- Identify provinces with larger geographic or population-based subdivisions
+- Understand how Nepal's federal structure is organized
+
+### District-Level Insights
+
+- See which districts have more local governance units
+- Understand urban vs. rural administrative patterns
+- Compare administrative density across different regions
+
+<Warning>
+Charts display data based on the current administrative structure. Historical changes or pending reforms may not be reflected.
+</Warning>
+
+## Technical Implementation
+
+The visualization page uses:
+
+- **Chart.js library** - A powerful JavaScript charting library for creating responsive, interactive charts
+- **Dynamic data loading** - Charts are populated with real-time data from the application
+- **Event-driven updates** - Province selection triggers automatic chart regeneration
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Comparing provinces">
+    Use the pie chart to get a quick overview of relative sizes, then switch to the bar chart to see exact district counts.
+  </Accordion>
+  
+  <Accordion title="Analyzing specific provinces">
+    Select each province individually in the dropdown to see detailed district-level municipality distribution.
+  </Accordion>
+  
+  <Accordion title="Mobile viewing">
+    On smaller screens, charts stack vertically. Rotate your device to landscape mode for better visibility of district labels.
+  </Accordion>
+</AccordionGroup>
+
+## Use Cases
+
+- **Research**: Generate insights about administrative structure for academic or policy research
+- **Education**: Visual learning tool for understanding Nepal's governance structure
+- **Planning**: Identify areas with high administrative complexity for resource allocation
+- **Analysis**: Compare regional patterns and identify outliers or unique administrative configurations
+- **Presentations**: Use the clean, professional visualizations for reports and presentations

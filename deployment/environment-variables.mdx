@@ -1,0 +1,233 @@
+---
+title: Environment Variables
+description: Configure environment variables for the Nepal Administrative Divisions application
+---
+
+The Nepal Administrative Divisions application uses environment variables to configure the data source and other runtime settings. This page explains how to set up and manage these variables for both local development and production deployment.
+
+## Required Environment Variables
+
+### NEPAL_ADMIN_DATA_URL
+
+The primary environment variable used by the application to fetch administrative division data.
+
+**Purpose**: Specifies the URL from which the application fetches Nepal's administrative division data (provinces, districts, and municipalities).
+
+**Type**: String (URL)
+
+**Required**: Yes
+
+**Example**:
+```bash
+NEPAL_ADMIN_DATA_URL=https://raw.githubusercontent.com/yourusername/nepal-data/main/nepal_data.json
+```
+
+## How It Works
+
+The application uses this environment variable in `app.py` to fetch data at startup:
+
+```python app.py
+from decouple import config
+import requests
+
+# Load the data source URL from environment variable
+NEPAL_ADMIN_DATA_URL = config('NEPAL_ADMIN_DATA_URL')
+print(f"Fetching data from: {NEPAL_ADMIN_DATA_URL}")
+response = requests.get(NEPAL_ADMIN_DATA_URL)
+
+if response.status_code == 200:
+    combined_data = response.json()
+else:
+    print(f"Error fetching data: {response.status_code} - {response.text}")
+    # Load data from local JSON file as a fallback
+    with open('data/updated_nepal_data.json', 'r', encoding='utf-8') as f:
+        combined_data = json.load(f)
+```
+
+### Fallback Behavior
+
+If the URL specified in `NEPAL_ADMIN_DATA_URL` is unavailable or returns an error:
+
+1. The application logs the error with status code and response text
+2. Falls back to a local JSON file: `data/updated_nepal_data.json`
+3. Continues operation using the local data
+
+<Note>
+  The fallback mechanism ensures the application can still run during development even if the remote data source is temporarily unavailable. However, for production deployments on Vercel, ensure the URL is always accessible as local files may not be available in the serverless environment.
+</Note>
+
+## Configuration by Environment
+
+### Local Development
+
+For local development, use a `.env` file in the project root directory:
+
+<Steps>
+  <Step title="Create .env File">
+    In your project root directory, create a file named `.env`:
+
+    ```bash
+    touch .env
+    ```
+  </Step>
+
+  <Step title="Add Environment Variable">
+    Add the `NEPAL_ADMIN_DATA_URL` variable to the `.env` file:
+
+    ```bash .env
+    NEPAL_ADMIN_DATA_URL=https://raw.githubusercontent.com/bimalstha23/Nepal-Address-API/main/nepal_data.json
+    ```
+  </Step>
+
+  <Step title="Verify Configuration">
+    Run the application and check the console output:
+
+    ```bash
+    python app.py
+    ```
+
+    You should see:
+    ```
+    Fetching data from: https://raw.githubusercontent.com/...
+    Status Code: 200
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+  Never commit the `.env` file to version control. Add it to your `.gitignore` file to prevent accidentally exposing sensitive configuration.
+</Warning>
+
+### Vercel Deployment
+
+For production deployment on Vercel, configure environment variables through the Vercel dashboard:
+
+<Steps>
+  <Step title="Access Project Settings">
+    1. Log in to [Vercel Dashboard](https://vercel.com/dashboard)
+    2. Select your project
+    3. Navigate to **Settings** → **Environment Variables**
+  </Step>
+
+  <Step title="Add Environment Variable">
+    1. Click **Add New**
+    2. Enter the key: `NEPAL_ADMIN_DATA_URL`
+    3. Enter the value: Your data source URL
+    4. Select environments:
+       - ✓ Production
+       - ✓ Preview
+       - ✓ Development
+    5. Click **Save**
+  </Step>
+
+  <Step title="Redeploy Application">
+    Environment variable changes require a redeploy:
+
+    - Automatic: Push a new commit to trigger redeployment
+    - Manual: Go to **Deployments** → Select latest → **Redeploy**
+  </Step>
+</Steps>
+
+#### Using Vercel CLI
+
+Alternatively, set environment variables using the Vercel CLI:
+
+```bash
+# Add a new environment variable
+vercel env add NEPAL_ADMIN_DATA_URL
+
+# When prompted, enter the value and select environments
+```
+
+To view existing environment variables:
+
+```bash
+vercel env ls
+```
+
+To remove an environment variable:
+
+```bash
+vercel env rm NEPAL_ADMIN_DATA_URL
+```
+
+## Data Source Requirements
+
+The URL specified in `NEPAL_ADMIN_DATA_URL` must:
+
+- Return a JSON response with administrative division data
+- Be publicly accessible (or use authentication if supported)
+- Follow the expected data structure:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Province Name",
+    "area_sq_km": "21,504",
+    "website": "https://example.com",
+    "headquarter": "City Name",
+    "districts": {
+      "1": {
+        "id": 1,
+        "name": "District Name",
+        "area_sq_km": "1,984",
+        "website": "https://example.com",
+        "headquarter": "City Name",
+        "municipalities": { ... }
+      }
+    }
+  }
+]
+```
+
+## Troubleshooting
+
+### Error: "NEPAL_ADMIN_DATA_URL not found"
+
+**Cause**: The environment variable is not set or not loaded correctly.
+
+**Solution**:
+- For local development: Ensure `.env` file exists in the project root with the correct variable
+- For Vercel: Verify the environment variable is set in project settings and redeploy
+
+### Error: "Error fetching data: 404"
+
+**Cause**: The URL specified in `NEPAL_ADMIN_DATA_URL` is not accessible.
+
+**Solution**:
+- Verify the URL is correct and publicly accessible
+- Test the URL in a browser or using `curl`:
+  ```bash
+  curl https://your-data-source-url.com/nepal_data.json
+  ```
+- Check if the URL requires authentication or has CORS restrictions
+
+### Fallback to Local Data
+
+**Cause**: Remote data source failed, application using local fallback.
+
+**Solution**:
+- Check the console logs for the specific error message
+- Verify network connectivity
+- Ensure the remote server is operational
+- Consider hosting the data on a reliable CDN or static hosting service
+
+<Warning>
+  In production environments (especially serverless platforms like Vercel), the local fallback file may not be available. Always ensure `NEPAL_ADMIN_DATA_URL` points to a reliable, accessible data source.
+</Warning>
+
+## Best Practices
+
+1. **Use Reliable Hosting**: Host your data JSON file on a reliable service (GitHub Pages, Vercel, Netlify, or a CDN)
+2. **Version Control**: Keep your data source under version control to track changes
+3. **Environment Separation**: Use different URLs for development, staging, and production environments
+4. **Security**: If your data is sensitive, use authentication headers (requires code modification)
+5. **Monitoring**: Set up monitoring to alert you if the data source becomes unavailable
+6. **Backup**: Keep a local copy of the data for emergency fallback scenarios
+
+## Next Steps
+
+- Learn how to [set up local development](/deployment/local-setup)
+- Deploy your application to [Vercel](/deployment/vercel)
+- Explore the API using the Swagger documentation at `/docs`

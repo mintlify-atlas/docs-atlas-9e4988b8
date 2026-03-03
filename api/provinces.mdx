@@ -1,0 +1,66 @@
+---
+title: 'Provinces'
+description: 'Retrieve all provinces in Nepal with administrative details'
+---
+
+<RequestExample>
+```bash cURL
+curl -X GET https://nepalappapis.com.np/api/provinces/
+```
+</RequestExample>
+
+## GET /api/provinces/
+
+Returns a list of all provinces in Nepal with their administrative information including area, website, and headquarters.
+
+### Response
+
+Returns an array of province objects.
+
+<ResponseField name="id" type="integer" required>
+  Province ID
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Province name
+</ResponseField>
+
+<ResponseField name="area_sq_km" type="string" required>
+  Area in square kilometers
+</ResponseField>
+
+<ResponseField name="website" type="string" required>
+  Province website URL
+</ResponseField>
+
+<ResponseField name="headquarter" type="string" required>
+  Province headquarter city
+</ResponseField>
+
+### Response Example
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Koshi Province",
+    "area_sq_km": "25905",
+    "website": "https://koshi.gov.np",
+    "headquarter": "Biratnagar"
+  },
+  {
+    "id": 2,
+    "name": "Madhesh Province",
+    "area_sq_km": "9661",
+    "website": "https://madhesh.gov.np",
+    "headquarter": "Janakpur"
+  },
+  {
+    "id": 3,
+    "name": "Bagmati Province",
+    "area_sq_km": "20300",
+    "website": "https://bagamati.gov.np",
+    "headquarter": "Hetauda"
+  }
+]
+```

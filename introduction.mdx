@@ -1,0 +1,104 @@
+---
+title: Introduction
+description: A comprehensive web application and API for accessing and visualizing Nepal's administrative divisions
+---
+
+# Nepal Administrative Divisions
+
+Welcome to Nepal Administrative Divisions - a comprehensive platform that provides both a user-friendly web interface and a powerful RESTful API for accessing detailed information about Nepal's administrative structure.
+
+## Overview
+
+Nepal Administrative Divisions offers complete access to the hierarchical structure of Nepal's administrative divisions, from provinces down to individual municipalities. Whether you're building an application, conducting research, or simply exploring Nepal's geography, our platform provides the data you need.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="7 Provinces" icon="map">
+    Complete data for all provinces including area, headquarters, and official websites
+  </Card>
+  <Card title="77 Districts" icon="map-location-dot">
+    Comprehensive district information with geographic and administrative details
+  </Card>
+  <Card title="753 Municipalities" icon="building">
+    Full municipality data including ward information and coverage area
+  </Card>
+  <Card title="RESTful API" icon="code">
+    Developer-friendly API with Swagger documentation for easy integration
+  </Card>
+  <Card title="Search Functionality" icon="magnifying-glass">
+    Powerful search across provinces, districts, and municipalities
+  </Card>
+  <Card title="Interactive Visualization" icon="chart-bar">
+    Data visualizations powered by Chart.js for better insights
+  </Card>
+</CardGroup>
+
+## What's Included
+
+### Web Interface
+
+The web application provides an intuitive interface for browsing Nepal's administrative divisions:
+
+- **Browse by hierarchy**: Navigate from provinces to districts to municipalities
+- **Search**: Quickly find any administrative division by name
+- **Visualize**: Interactive charts showing administrative data
+- **Detailed information**: Area, headquarters, websites, and ward information
+
+### API Access
+
+The REST API gives developers programmatic access to all administrative data:
+
+- **Three main endpoints**: Provinces, districts, and municipalities
+- **Flexible querying**: Filter by ID or name
+- **Swagger documentation**: Interactive API explorer at `/docs`
+- **JSON responses**: Easy to integrate with any application
+
+## Data Structure
+
+Each administrative level includes comprehensive information:
+
+**Provinces**
+- ID and name
+- Area in square kilometers
+- Official website
+- Headquarters location
+
+**Districts**
+- ID and name
+- Area in square kilometers
+- Official website
+- Headquarters location
+- Parent province
+
+**Municipalities**
+- ID and name
+- Category ID
+- Area in square kilometers
+- Official website
+- List of wards
+- Parent district and province
+
+## Get Started
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get up and running in minutes with our quickstart guide
+  </Card>
+  <Card title="API Reference" icon="book" href="/api/overview">
+    Explore the complete API documentation
+  </Card>
+</CardGroup>
+
+## Technologies
+
+Built with modern, reliable technologies:
+
+- **Flask**: Python web framework for robust backend
+- **Flask-RESTX**: REST API with automatic Swagger documentation
+- **Chart.js**: Beautiful, responsive data visualizations
+- **HTML/CSS**: Clean, accessible frontend interface
+
+## Data Source
+
+Data is sourced from the [Nepal Address API](https://github.com/bimalstha23/Nepal-Address-API/) and enriched with additional information including areas, websites, and headquarters for comprehensive coverage.
