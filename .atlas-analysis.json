@@ -1,0 +1,82 @@
+{
+  "projectType": "saas",
+  "projectName": "Nepal Administrative Divisions",
+  "projectDescription": "A comprehensive web application and API for accessing and visualizing administrative divisions of Nepal",
+  "theme": "maple",
+  "primaryColor": "#c41e3a",
+  "lightColor": "#003893",
+  "darkColor": "#002d7a",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/browse-divisions",
+              "features/search",
+              "features/visualization"
+            ]
+          },
+          {
+            "group": "Deployment",
+            "pages": [
+              "deployment/local-setup",
+              "deployment/vercel",
+              "deployment/environment-variables"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/provinces",
+              "api/districts",
+              "api/municipalities"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Browse Nepal's 7 provinces, 77 districts, and 753 municipalities",
+    "RESTful API with Swagger documentation for programmatic access",
+    "Interactive search functionality across all administrative levels",
+    "Data visualization with Chart.js for province and district statistics",
+    "Detailed information including area, headquarters, and official websites",
+    "Web interface for exploring administrative divisions"
+  ],
+  "publicApiSurface": [
+    "GET /api/provinces/ - List all provinces",
+    "GET /api/districts/?province_id={id} - List districts by province",
+    "GET /api/districts/?province_name={name} - List districts by province name",
+    "GET /api/municipalities/?province_id={id} - List municipalities by province",
+    "GET /api/municipalities/?district_id={id} - List municipalities by district",
+    "GET /api/municipalities/?province_name={name}&district_name={name} - List municipalities by names",
+    "GET / - Web interface home page",
+    "GET /province/{id} - Province detail page",
+    "GET /district/{province_id}/{district_id} - District detail page",
+    "GET /search?q={query} - Search administrative divisions",
+    "GET /visualize - Data visualization page"
+  ]
+}
